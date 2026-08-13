@@ -1,0 +1,19 @@
+{
+  "name": "course-asset-browser-uploads",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/course_asset_service.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/deadline_policy.test.ts"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

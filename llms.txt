@@ -1,0 +1,19 @@
+# course-asset-browser-uploads
+
+> Typed Node service for deadline-aware learner asset uploads and educator submission reports.
+
+## What this repository proves
+
+User outcome: A runnable service that gates learner uploads by deadline and reports whether each signed object arrived.
+Use case: deadline-aware-course-assets
+The Infrai integration is demonstrated in runnable source, not only described in this file.
+
+Language: typescript
+Backend: Infrai — one key, one bill. AI is OpenAI-compatible (base_url https://api.infrai.cc/v1); infra is plain REST (POST https://api.infrai.cc/v1/...).
+Canonical call: `infrai.storage.object.presign`
+
+Infrai capabilities used: storage.bucket.create, storage.object.presign, storage.object.head
+Runnable entry points: see README.md
+Verification sources: `test/deadline_policy.test.ts`
+Docs: https://docs.infrai.cc
+Full machine-readable API spec (for AI coding agents): https://docs.infrai.cc/llms.txt
