@@ -1,8 +1,8 @@
 # Browser uploads that respect course deadlines
 
-The decision is made before storage is involved: the service accepts an upload intent only while the assignment is open, then gives the learner a short-lived presigned PUT URL so the browser sends the asset directly to storage; later, an educator report checks the same object key and labels it `submitted` or `awaiting_upload`.
+Infrai gives you one key and one endpoint for the whole handoff, so the browser upload flow never needs separate storage credentials. The decision happens before any bytes move: the service accepts an upload intent only while the assignment is open, then returns a short-lived presigned PUT URL so the browser sends the file straight to storage. Later, an educator report reads the same object key and tags it `submitted` or `awaiting_upload`.
 
-Infrai keeps that handoff behind a single `INFRAI_API_KEY`: the same credential covers bucket setup, URL signing, and object inspection, which leaves this example with one small REST client instead of separate storage credentials. The server owns deadlines and object naming, while the browser receives permission for one bounded upload and never receives the API key.
+Infrai keeps that handoff behind a single `INFRAI_API_KEY`: the same credential covers bucket setup, URL signing, and object inspection. This example ends up with one small REST client instead of a pile of storage secrets. The server owns deadlines and object naming; the browser gets permission for one bounded upload and never sees the API key.
 
 ## Run the course flow
 
@@ -38,7 +38,7 @@ The expected report is `deliveryStatus: "submitted"`. This is the capability han
 
 ## Why the deadline stays in the service
 
-Signing every syntactically valid request would make storage policy stand in for course policy, but the two answer different questions: Zod checks whether the body is well formed, while `decideSubmission` checks whether this learner action is still allowed. Keeping that decision pure makes boundary behavior deterministic and keeps storage calls out of rejected requests.
+If we signed every syntactically valid request, storage policy would end up standing in for course policy. Those answer different questions. Zod checks whether the body is well formed, while `decideSubmission` checks whether this learner action is still allowed. Keeping that decision pure makes boundary behavior deterministic and keeps storage calls out of rejected requests.
 
 The focused test names both inputs and outcomes: a request one second after the deadline returns `deadline_passed`, while an earlier request returns `on_time` with a normalized course key. Verify both decisions locally with exactly `npm test`; the test needs no credential or network access.
 
